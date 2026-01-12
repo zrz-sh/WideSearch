@@ -1,6 +1,8 @@
 # Copyright (c) 2025 Bytedance Ltd. and/or its affiliates
 # SPDX-License-Identifier: MIT
 
+import os
+
 model_config = {
     "model_config_name": {
         "model_name": "MODEL_NAME",
@@ -82,11 +84,11 @@ model_config = {
         },
     },
     "default_eval_config": {
-        "model_name": "gpt-4o-mini",
-        "base_url": "https://api.openai.com/v1",
-        "api_key": "",
+        "model_name": "deepseek-v3-2-251201",
+        "base_url": "https://ark.cn-beijing.volces.com/api/v3",
+        "api_key": os.environ.get('ARK_API_KEY'),
         "generate_kwargs": {
-            "max_tokens": 10240,
+            "max_tokens": 8192,
         },
         "temperature": 0,
     },

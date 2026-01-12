@@ -172,18 +172,18 @@ def llm_completion(
     model_name = model_config[model_config_name]["model_name"]
     base_url = model_config[model_config_name]["base_url"]
     api_key = model_config[model_config_name]["api_key"]
-
-    if ("gpt" in model_name or "o3" in model_name or "o4" in model_name) and api_key == "":                                                                                                                                                                                                                                                                                                                
-        api_key = model_config[model_config_name]["api_key"] or os.environ.get("OPENAI_API_KEY")                                                                                                                      
-        logger.info("Using OPENAI_API_KEY from environment variable")
-    
     generate_kwargs = model_config[model_config_name].get("generate_kwargs", {})
 
     logger.info(
-        f"model_config_name: {model_config_name}, model_name: {model_name}, generate_kwargs: {generate_kwargs}"
+        f"model_config_name: {model_config_name}, model_name: {model_name}, generate_kwargs: {generate_kwargs}, api_key: {api_key[:4]}***"
     )
 
-    if "doubao" in model_name or model_name.startswith("ep") or "k2" in model_name:
+    if (
+        "doubao" in model_name 
+        or model_name.startswith("ep") 
+        or "k2" in model_name
+        or "deepseek" in model_name 
+    ):
         response = ark_complete(
             base_url=base_url,
             api_key=api_key,
