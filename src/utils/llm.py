@@ -1,10 +1,11 @@
 # Copyright (c) 2025 Bytedance Ltd. and/or its affiliates
 # SPDX-License-Identifier: MIT
 
+import os
 from typing import Any, Iterable, List, Optional, Union
 
 from loguru import logger
-from openai import AzureOpenAI
+from openai import AzureOpenAI, OpenAI
 from openai.types.chat.chat_completion_message import ChatCompletionMessage
 from tenacity import retry, stop_after_attempt, wait_incrementing
 from volcenginesdkarkruntime import Ark
@@ -60,12 +61,20 @@ def openai_complete(
     """Complete a prompt with OpenAI APIs."""
 
     def create_openai_client(base_url, api_key):
-        return AzureOpenAI(
-            api_version="2023-03-15-preview",
-            azure_endpoint=base_url,
-            api_key=api_key,
-            timeout=300,
-        )
+        # Use Azure client if base_url contains "azure", otherwise use standard OpenAI
+        if "azure" in base_url.lower():
+            return AzureOpenAI(
+                api_version="2023-03-15-preview",
+                azure_endpoint=base_url,
+                api_key=api_key,
+                timeout=300,
+            )
+        else:
+            return OpenAI(
+                base_url=base_url,
+                api_key=api_key,
+                timeout=300,
+            )
 
     openai_client = create_openai_client(base_url, api_key)
     logger.debug(f"messages: {messages}")
@@ -163,9 +172,14 @@ def llm_completion(
     model_name = model_config[model_config_name]["model_name"]
     base_url = model_config[model_config_name]["base_url"]
     api_key = model_config[model_config_name]["api_key"]
+
+    if ("gpt" in model_name or "o3" in model_name or "o4" in model_name) and api_key == "":                                                                                                                                                                                                                                                                                                                
+        api_key = model_config[model_config_name]["api_key"] or os.environ.get("OPENAI_API_KEY")                                                                                                                      
+        logger.info("Using OPENAI_API_KEY from environment variable")
+    
     generate_kwargs = model_config[model_config_name].get("generate_kwargs", {})
 
-    logger.debug(
+    logger.info(
         f"model_config_name: {model_config_name}, model_name: {model_name}, generate_kwargs: {generate_kwargs}"
     )
 

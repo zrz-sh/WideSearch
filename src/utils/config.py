@@ -82,8 +82,8 @@ model_config = {
         },
     },
     "default_eval_config": {
-        "model_name": "gpt-4.1-2025-04-14",
-        "base_url": "",
+        "model_name": "gpt-4o-mini",
+        "base_url": "https://api.openai.com/v1",
         "api_key": "",
         "generate_kwargs": {
             "max_tokens": 10240,
