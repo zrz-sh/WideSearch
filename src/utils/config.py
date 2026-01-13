@@ -83,12 +83,21 @@ model_config = {
             "max_tokens": 65535,
         },
     },
+    # "default_eval_config": {
+    #     "model_name": "deepseek-v3-2-251201",
+    #     "base_url": "https://ark.cn-beijing.volces.com/api/v3",
+    #     "api_key": os.environ.get('ARK_API_KEY'),
+    #     "generate_kwargs": {
+    #         "max_tokens": 8192,
+    #     },
+    #     "temperature": 0,
+    # },
     "default_eval_config": {
-        "model_name": "deepseek-v3-2-251201",
-        "base_url": "https://ark.cn-beijing.volces.com/api/v3",
-        "api_key": os.environ.get('ARK_API_KEY'),
+        "model_name": "gpt-4.1-mini-2025-04-14",
+        "base_url": "https://api.openai.com/v1",
+        "api_key": os.environ.get('OPENAI_API_KEY'),
         "generate_kwargs": {
-            "max_tokens": 8192,
+            "max_tokens": 10240,
         },
         "temperature": 0,
     },
