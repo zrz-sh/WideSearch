@@ -93,7 +93,7 @@ model_config = {
     #     "temperature": 0,
     # },
     "default_eval_config": {
-        "model_name": "gpt-4.1-mini-2025-04-14",
+        "model_name": "gpt-4.1-2025-04-14",
         "base_url": "https://api.openai.com/v1",
         "api_key": os.environ.get('OPENAI_API_KEY'),
         "generate_kwargs": {
